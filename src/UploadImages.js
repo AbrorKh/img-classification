@@ -11,6 +11,7 @@ class UploadImages extends React.Component {
           raw_image_link: '',
           predicted: false,
           predicted_image_link: '',
+          raw_image_name: '',
           progress: 0
         }
 
@@ -29,8 +30,8 @@ class UploadImages extends React.Component {
             alert('Image is not uploaded');
             return false; 
           }
-          const uploadTask = firebase.storage().ref(`images/${image.name}`).put(image);
-          const ref = firebase.database().ref(`images/`);
+          const uploadTask = firebase.storage().ref(`raw_images/${image.name}`).put(image);
+          const ref = firebase.database().ref(`raw_images/`);
           uploadTask.on('state_changed', 
           (snapshot) => {
             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -41,12 +42,13 @@ class UploadImages extends React.Component {
             console.log(error);
           }, 
           () => {
-            firebase.storage().ref('images').child(image.name).getDownloadURL().then(url => {
+            firebase.storage().ref('raw_images').child(image.name).getDownloadURL().then(url => {
                 console.log("URL FOR RAW: " + url);
                 ref.push({
                     predicted: false,
                     raw_image_link: url,
-                    predicted_image_link: 'PREDICTED_URL_HERE' 
+                    predicted_image_link: 'PREDICTED_URL_HERE',
+                    raw_image_name: image.name,
                 })
                 alert('Image Upload was successful');
                 this.setState({url});
