@@ -1,7 +1,6 @@
 import React from 'react';
-import {TiCloudStorageOutline} from 'react-icons/ti';
 import {Link} from '@reach/router';
-
+import mySvg from './bee.svg'
 class Navigation extends React.Component {
     render(){
         const { user, logOutUser } = this.props;
@@ -9,7 +8,7 @@ class Navigation extends React.Component {
             <nav className="site-nav family-sans navbar navbar-expand bg-primary navbar-dark higher">
                 <div className="container-fluid">
                     <Link to="/" className="navbar-brand">
-                    <TiCloudStorageOutline className="mr-1" size={50}/>
+                    <img src={mySvg} width="60" height="60" alt="bee-logo"/>
                     </Link>
                     <div className="navbar-nav ml-auto">
                     {/* {user && (

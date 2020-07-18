@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from '@reach/router';
+import mySvg from './bee(1).svg';
 
 class Home extends React.Component {
     render(){
@@ -19,13 +20,14 @@ class Home extends React.Component {
                 style={{
                     fontSize: 3 + 'em'
                 }}>
-                UPLOAD IMAGES
+                    <img src={mySvg} width="100" height="100" alt="bee-logo"/><br/>
+                BEE CLASSIFICATION
                 </div>
                 <p className="lead" style={ biggerLead }>
-                You can upload up to 10 images.
+                You can upload up to 10 images and classify them.
                 </p>
                 {user && (
-                    <p className="row justify-content-center display-7 text-secondary">Go to the image upload page pressing the button below</p>
+                    <p className="row justify-content-center display-7 text-secondary">Go to the image upload page</p>
                 )}
                 {/*check if user is null, then do switch*/}
                 {user == null && (
