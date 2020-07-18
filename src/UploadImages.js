@@ -2,12 +2,13 @@ import React from 'react';
 import firebase from './Firebase';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Image from 'react-bootstrap/Image';
+import { Container, Row, Col } from 'reactstrap';
 
 class UploadImages extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          image: null,
+          images: [],
           raw_image_link: '',
           predicted: false,
           show: false,
@@ -28,7 +29,7 @@ class UploadImages extends React.Component {
       handleUpload = () => {
           const {image} = this.state;
           if(image === null){
-            alert('Image is not uploaded');
+            alert('Images are not chosen.');
             return false; 
           }
           const uploadTask = firebase.storage().ref(`raw_images/${image.name}`).put(image);
@@ -79,6 +80,10 @@ class UploadImages extends React.Component {
         }
         )
       }
+      
+      refreshPage(){
+        window.location.reload(false);
+      }
 
       render() {
         return (
@@ -86,7 +91,7 @@ class UploadImages extends React.Component {
                 <div className="row justify-content-center">
                     <div className="col-10 col-md-10 col-lg-8 col-xl-7">
                         <div className="display-3 text-primary mt-3 mb-2">
-                            Submit Images Here <br/>
+                            Bee Images <br/>
                         </div>
                         <div className="display-4 text-secondary">
                         </div><br/>
@@ -94,18 +99,25 @@ class UploadImages extends React.Component {
                             {/* <br/><br/> */}
                             <button className="btn btn-outline-primary mr-2" onClick={this.handleUpload.bind(this)}>Submit</button>
                             { this.state.show ? <button className="btn btn-outline-primary mr-2" onClick={this.getClassifiedImage.bind(this)}>Classify</button> : null}
+                            { this.state.show ? <button className="btn btn-outline-primary mr-2" onClick={this.refreshPage.bind(this)}>Clear</button> : null }
                             <br/><br/>
                             <ProgressBar animated now={this.state.progress} label={`${this.state.progress}%`} min="0" max="100">
                             </ProgressBar><br/>             
-                            Images will appear below:            
-                            {/* Uploaded Image will appear below: */}
-                            <Image src={this.state.url} thumbnail/>
-                            {/* Classified Image will appear below: */}
-                            <Image src={this.state.predicted_image_link} thumbnail/>
+                            Images will appear below:
+                                                      
                         </div>
                         
                     </div>
-                    
+                    <Container>
+                        <Row>
+                            <Col xs="6" md={6}>
+                                <a href={this.state.url} target="#"><Image src={this.state.url} thumbnail/></a>
+                            </Col>            
+                            <Col xs="6" md={6}>
+                                <a href={this.state.predicted_image} target="#"><Image src={this.state.predicted_image_link} thumbnail/></a>
+                            </Col>
+                        </Row>
+                    </Container>  
                 </div>
                 
         );
